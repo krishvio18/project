@@ -22,7 +22,7 @@ RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
 RUN sed -i -e "s/var\/www/app/g" /etc/apache2/apache2.conf && sed -i -e "s/html/public/g" /etc/apache2/apache2.conf
 
 # Copies your code to the image
-COPY /website/*  /app  
+COPY /website/*  /app/ 
 
 # Sets permissions for the web user
 RUN chown -R www-data:www-data

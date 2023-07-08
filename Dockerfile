@@ -9,7 +9,7 @@ RUN apt-get update -y
 RUN apt-get install -y apache2
 
 #Install PHP Modules
-RUN sudo apt-get install -y php7.4-cli php7.4-json php7.4-common php7.4-mysql php7.4-zip php7.4-gd php7.4-mbstring php7.4-curl php7.4-xml php7.4-bcmath php7.4-fpm
+RUN sudo apt-get install -y php7.4-cli php7.4-json php7.4-common php7.4-mysql php7.4-zip php7.4-gd php7.4-mbstring php7.4-curl php7.4-xml php7.4-bcmath
 
 #Copy Application Files
 RUN rm -rf /var/www/html/*

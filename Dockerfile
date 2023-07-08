@@ -1,20 +1,26 @@
-FROM devopsedu/webapp
+# Use the official PHP 8.0 image as the base
+FROM php:8.0-apache
 
-MAINTAINER Ram Dittakavi <ramdittakavi@gmail.com>
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    libzip-dev \
+    unzip \
+    && docker-php-ext-install zip pdo_mysql
 
-#Update Repository
-RUN apt-get update -y
+# Enable Apache rewrite module
+RUN a2enmod rewrite
 
-#Install Apache
-RUN apt-get install -y apache2
+# Set the document root to Laravel's public director
 
-#Install PHP Modules
-RUN apt-get install -y php7.4-cli php7.4-json php7.4-common php7.4-mysql php7.4-zip php7.4-gd php7.4-mbstring php7.4-curl php7.4-xml php7.4-bcmath
+# Copy the application files to the container
+
+RUN rm -rf /var/www/html/*
+COPY website /var/www/html
+
+# Set the working directory
+WORKDIR /var/www/html
 
 #Copy Application Files
-RUN rm -rf /var/www/html/*
-COPY website /var/www/html/
-
 #Open port 80
 EXPOSE 8080
 

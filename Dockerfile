@@ -25,7 +25,6 @@ RUN sed -i -e "s/var\/www/app/g" /etc/apache2/apache2.conf && sed -i -e "s/html/
 COPY /website/*  /app/ 
 
 # Sets permissions for the web user
-RUN chown -R www-data:www-data
 
 # Start Selenium Test
 # COPY selenium-server-standalone-3.14.0.jar /tmp

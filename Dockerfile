@@ -1,5 +1,13 @@
-# Tells the image to use the latest version of PHP
-FROM php:latest-apache2  
+FROM php:8.0-apache
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    libzip-dev \
+    unzip \
+    && docker-php-ext-install zip pdo_mysql
+
+# Enable Apache rewrite module
+RUN a2enmod rewrite
 
 # Creates a directory called "app"
 RUN mkdir /app  

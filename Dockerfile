@@ -1,31 +1,23 @@
-# Use the official PHP 8.0 image as the base
-FROM php:8.0-apache
+# Tells the image to use the latest version of PHP
+FROM php:latest-apache  
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    libzip-dev \
-    unzip \
-    && docker-php-ext-install zip pdo_mysql
+# Creates a directory called "app"
+RUN mkdir /app  
 
-# Enable Apache rewrite module
-RUN a2enmod rewrite
+# Sets that directory as your working directory
+WORKDIR /app  
 
-# Set the document root to Laravel's public director
+# Changes uid and gid of apache to docker user uid/gid
+RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
 
-# Copy the application files to the container
+# Sets Apache to run via the app directory
+RUN sed -i -e "s/var\/www/app/g" /etc/apache2/apache2.conf && sed -i -e "s/html/public/g" /etc/apache2/apache2.conf
 
-RUN rm -rf /var/www/html/*
-COPY website /var/www/html
+# Copies your code to the image
+COPY /website/*/app  
 
-# Set the working directory
-WORKDIR /var/www/html
-
-#Copy Application Files
-#Open port 80
-EXPOSE 8080
-
-#Start Apache service
-CMD ["/usr/sbin/apache2ctl", "-D", "FOREGROUND"]
+# Sets permissions for the web user
+RUN chown -R www-data:www-data
 
 # Start Selenium Test
 # COPY selenium-server-standalone-3.14.0.jar /tmp
